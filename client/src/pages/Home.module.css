@@ -9,22 +9,25 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 40px;
-  border-bottom: 1px solid var(--border);
+  padding: 18px 36px;
   background: var(--surface);
+  border-bottom: 2px solid var(--border);
 }
 
 .logo {
-  font-size: 1.05rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .nav {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .greeting {
@@ -34,19 +37,28 @@
 
 .navLink {
   font-size: 0.9rem;
+  font-weight: 600;
   color: var(--text);
+  padding: 7px 14px;
+  border-radius: 20px;
+  transition: background 0.15s;
+}
+
+.navLink:hover {
+  background: var(--accent-light);
+  text-decoration: none;
 }
 
 .navBtn {
   font-size: 0.875rem;
-  font-weight: 500;
-  padding: 8px 18px;
-  border-radius: 8px;
+  font-weight: 700;
+  padding: 8px 20px;
+  border-radius: 20px;
   background: var(--accent);
   color: #fff;
   border: none;
   text-decoration: none;
-  transition: background 0.15s;
+  transition: background 0.15s, transform 0.1s;
   font-family: var(--sans);
   cursor: pointer;
   display: inline-flex;
@@ -56,9 +68,10 @@
 .navBtn:hover {
   background: var(--accent-hover);
   text-decoration: none;
+  transform: translateY(-1px);
 }
 
-/* Main hero */
+/* Hero */
 .main {
   flex: 1;
   display: flex;
@@ -67,55 +80,64 @@
   justify-content: center;
   text-align: center;
   padding: 80px 24px;
-  gap: 20px;
+  gap: 22px;
+  background: radial-gradient(ellipse at 50% 0%, #deeedd 0%, var(--bg) 70%);
 }
 
 .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--accent);
+  background: var(--accent-light);
+  padding: 5px 14px;
+  border-radius: 20px;
 }
 
 .headline {
-  font-size: clamp(2.4rem, 5vw, 3.6rem);
-  font-weight: 400;
-  letter-spacing: -0.03em;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
   line-height: 1.15;
   color: var(--text-strong);
 }
 
 .sub {
-  max-width: 480px;
+  max-width: 460px;
   color: var(--text);
   font-size: 1.05rem;
-  line-height: 1.7;
+  line-height: 1.75;
 }
 
 .cta {
-  margin-top: 8px;
-  padding: 13px 32px;
+  margin-top: 10px;
+  padding: 14px 36px;
   background: var(--accent);
   color: #fff;
-  border-radius: 10px;
+  border-radius: 24px;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 700;
   text-decoration: none;
-  transition: background 0.15s;
-  letter-spacing: 0.01em;
+  transition: background 0.15s, transform 0.1s;
+  box-shadow: 0 4px 14px rgba(92, 148, 99, 0.35);
 }
 
 .cta:hover {
   background: var(--accent-hover);
   text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(92, 148, 99, 0.4);
 }
 
 @media (max-width: 480px) {
   .header {
-    padding: 16px 20px;
+    padding: 14px 18px;
   }
   .main {
-    padding: 60px 20px;
+    padding: 56px 20px;
   }
 }

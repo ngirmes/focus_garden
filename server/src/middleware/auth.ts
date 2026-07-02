@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
-import { env } from '../config/env';
+import { NextFunction, Request, Response } from "express";
+import jwt from "jsonwebtoken";
+import { env } from "../config/env";
 
 export interface AuthPayload {
   userId: number;
@@ -16,16 +16,17 @@ declare global {
 
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
   const header = req.headers.authorization;
-  const token = header?.startsWith('Bearer ') ? header.slice(7) : undefined;
+  const token = header?.startsWith("Bearer ") ? header.slice(7) : undefined;
 
   if (!token) {
-    return res.status(401).json({ error: 'Missing authorization token' });
+    return res.status(401).json({ error: "Missing authorization token" });
   }
 
   try {
-    req.user = jwt.verify(token, env.jwtSecret) as AuthPayload;
+    const payload = jwt.verify(token, env.jwtSecret) as AuthPayload;
+    req.user = payload;
     next();
   } catch {
-    return res.status(401).json({ error: 'Invalid or expired token' });
+    return res.status(401).json({ error: "Invalid or expired token" });
   }
 }
