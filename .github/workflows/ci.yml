@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - "feature/**"
+      - "enhancement/**"
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # ---------- Client ----------
+      - name: Install client dependencies
+        working-directory: ./client
+        run: npm ci
+
+      - name: Lint client
+        working-directory: ./client
+        run: npm run lint
+
+      - name: Test client
+        working-directory: ./client
+        run: npm test
+
+      - name: Build client
+        working-directory: ./client
+        run: npm run build
+
+      # ---------- Server ----------
+      - name: Install server dependencies
+        working-directory: ./server
+        run: npm ci
+
+      - name: Lint server
+        working-directory: ./server
+        run: npm run lint
+
+      - name: Build server
+        working-directory: ./server
+        run: npm run build
