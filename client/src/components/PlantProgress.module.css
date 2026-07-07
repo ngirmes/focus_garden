@@ -1,0 +1,48 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.stage {
+  color: var(--text-strong);
+}
+
+.points {
+  color: var(--text-muted);
+}
+
+.evolved {
+  color: var(--accent);
+  font-weight: 700;
+  animation: pop 0.4s ease;
+}
+
+@keyframes pop {
+  0%   { transform: scale(0.8); opacity: 0; }
+  60%  { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.track {
+  height: 12px;
+  border-radius: 99px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--accent), #8fcc7a);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}

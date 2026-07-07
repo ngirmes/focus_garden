@@ -1,13 +1,15 @@
 .wrapper {
   width: 100%;
-  height: 100%;
   border-radius: 20px;
   overflow: hidden;
   background: #e8f3e9;
+  line-height: 0; /* removes inline gap below canvas */
 }
 
+/* The canvas has a fixed 400×300 pixel buffer.
+   CSS scales it to full container width while height follows naturally. */
 .canvas {
   display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
 }
