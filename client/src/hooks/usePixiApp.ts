@@ -2,36 +2,45 @@ import { useEffect, useRef } from 'react';
 import { Application } from 'pixi.js';
 
 export function usePixiApp(
-  canvasRef: React.RefObject<HTMLCanvasElement | null>,
-  onReady: (app: Application) => void
+  containerRef: React.RefObject<HTMLDivElement | null>,
+  onReady: (app: Application) => void,
+  width = 400,
+  height = 300,
 ) {
   const appRef = useRef<Application | null>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    const container = containerRef.current;
+    if (!container) return;
 
     let cancelled = false;
     const app = new Application();
 
     app.init({
-      canvas,
+      width,
+      height,
       background: '#e8f3e9',
       antialias: true,
-      resizeTo: canvas.parentElement ?? canvas,
     }).then(() => {
       if (cancelled) {
-        app.destroy(false);
+        app.destroy(true);
         return;
       }
+      // Style the canvas PixiJS created so it scales to fill the container.
+      app.canvas.style.display = 'block';
+      app.canvas.style.width = '100%';
+      app.canvas.style.height = 'auto';
+      container.appendChild(app.canvas);
       appRef.current = app;
       onReady(app);
+    }).catch(err => {
+      console.error('[PixiJS] init failed:', err);
     });
 
     return () => {
       cancelled = true;
       if (appRef.current) {
-        appRef.current.destroy(false);
+        appRef.current.destroy(true); // true = also remove the canvas from the DOM
         appRef.current = null;
       }
     };
