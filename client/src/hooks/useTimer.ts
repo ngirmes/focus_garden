@@ -7,27 +7,27 @@ export function useTimer(onComplete: (minutes: number) => void) {
   const [running, setRunning] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(25 * 60);
 
-  // Keep secondsLeft in sync with selectedMinutes when idle.
-  useEffect(() => {
-    if (!running) setSecondsLeft(selectedMinutes * 60);
-  }, [selectedMinutes, running]);
-
   // Countdown tick.
   useEffect(() => {
     if (!running) return;
     const id = setInterval(() => {
-      setSecondsLeft(s => (s > 0 ? s - 1 : 0));
+      setSecondsLeft(s => {
+        if (s <= 1) {
+          clearInterval(id);
+          setRunning(false);
+          onComplete(selectedMinutes);
+          return 0;
+        }
+        return s - 1;
+      });
     }, 1000);
     return () => clearInterval(id);
-  }, [running]);
+  }, [running, selectedMinutes, onComplete]);
 
-  // Fire completion when the countdown reaches zero.
-  useEffect(() => {
-    if (running && secondsLeft === 0) {
-      setRunning(false);
-      onComplete(selectedMinutes);
-    }
-  }, [secondsLeft, running, selectedMinutes, onComplete]);
+  const selectMinutes = useCallback((minutes: number) => {
+    setSelectedMinutes(minutes);
+    if (!running) setSecondsLeft(minutes * 60);
+  }, [running]);
 
   const start = useCallback(() => {
     setSecondsLeft(selectedMinutes * 60);
@@ -39,5 +39,5 @@ export function useTimer(onComplete: (minutes: number) => void) {
     setSecondsLeft(selectedMinutes * 60);
   }, [selectedMinutes]);
 
-  return { running, selectedMinutes, setSelectedMinutes, secondsLeft, start, stop, presets: PRESET_MINUTES };
+  return { running, selectedMinutes, setSelectedMinutes: selectMinutes, secondsLeft, start, stop, presets: PRESET_MINUTES };
 }

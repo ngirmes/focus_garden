@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import AuthForm from "../components/AuthForm";
 import { loginRequest } from "../api/auth";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 import styles from "./AuthPage.module.css";
 
 export default function Login() {
