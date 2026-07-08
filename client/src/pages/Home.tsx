@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { Link, Navigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 import styles from "./Home.module.css";
 
 export default function Home() {
@@ -10,23 +10,14 @@ export default function Home() {
     <div className={`page ${styles.page}`}>
       <header className={styles.header}>
         <span className={styles.logo}>🌱 focus garden</span>
-        {user ? (
-          <div className={styles.nav}>
-            <span className={styles.greeting}>Hi, {user.email}</span>
-            <button className={styles.navBtn} onClick={logout}>
-              Sign out
-            </button>
-          </div>
-        ) : (
-          <nav className={styles.nav}>
-            <Link className={styles.navLink} to="/login">
-              Sign in
-            </Link>
-            <Link className={styles.navBtn} to="/register">
-              Get started
-            </Link>
-          </nav>
-        )}
+        <nav className={styles.nav}>
+          <Link className={styles.navLink} to="/login">
+            Sign in
+          </Link>
+          <Link className={styles.navBtn} to="/register">
+            Get started
+          </Link>
+        </nav>
       </header>
 
       <main className={styles.main}>
