@@ -3,12 +3,13 @@ import { useAuth } from "../context/AuthContext";
 import styles from "./Home.module.css";
 
 export default function Home() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
+  if (user) return <Navigate to="/garden" replace />;
 
   return (
     <div className={`page ${styles.page}`}>
       <header className={styles.header}>
-        <span className={styles.logo}>🌱 Sprout</span>
+        <span className={styles.logo}>🌱 focus garden</span>
         {user ? (
           <div className={styles.nav}>
             <span className={styles.greeting}>Hi, {user.email}</span>
@@ -39,11 +40,9 @@ export default function Home() {
           Focus Garden helps you build gentle, sustainable habits around your
           attention — without pressure, streaks, or noise.
         </p>
-        {!user && (
-          <Link className={styles.cta} to="/register">
-            Start for free
-          </Link>
-        )}
+        <Link className={styles.cta} to="/register">
+          Start for free
+        </Link>
       </main>
     </div>
   );
