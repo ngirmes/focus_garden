@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 import { getGarden, completeSession, sellPlant } from "../api/garden";
 import type { Plant } from "../api/types";
 import GardenCanvas from "../components/GardenCanvas";

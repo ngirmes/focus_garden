@@ -1,23 +1,7 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from "react";
+import { AuthContext, type AuthState, type User } from "./auth-context";
 
-interface User {
-  id: number;
-  email: string;
-}
-
-interface AuthState {
-  token: string | null;
-  user: User | null;
-}
-
-interface AuthContextValue extends AuthState {
-  login: (token: string, user: User) => void;
-  logout: () => void;
-}
-
-const AuthContext = createContext<AuthContextValue | null>(null);
-
-const STORAGE_KEY = 'fg_auth';
+const STORAGE_KEY = "fg_auth";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AuthState>(() => {
@@ -46,10 +30,4 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       {children}
     </AuthContext.Provider>
   );
-}
-
-export function useAuth() {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
-  return ctx;
 }

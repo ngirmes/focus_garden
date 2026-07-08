@@ -1,7 +1,7 @@
-import { useRef, useEffect, useCallback } from 'react';
-import { Application, Graphics } from 'pixi.js';
-import { usePixiApp } from '../hooks/usePixiApp';
-import styles from './GardenCanvas.module.css';
+import { useRef, useEffect, useCallback } from "react";
+import { Application, Graphics } from "pixi.js";
+import { usePixiApp } from "../hooks/usePixiApp";
+import styles from "./GardenCanvas.module.css";
 
 const W = 400;
 const H = 300;
@@ -83,7 +83,9 @@ export default function GardenCanvas({ stage }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const plantRef = useRef<Graphics | null>(null);
   const stageRef = useRef(stage);
-  stageRef.current = stage;
+  useEffect(() => {
+    stageRef.current = stage;
+  }, [stage]);
 
   const onReady = useCallback((app: Application) => {
     const pot = new Graphics();

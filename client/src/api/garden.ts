@@ -1,4 +1,4 @@
-import type { Plant, GardenState, SessionResult, SellResult } from "./types";
+import type { GardenState, SessionResult, SellResult } from "./types";
 
 const BASE = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
 
