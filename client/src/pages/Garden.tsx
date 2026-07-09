@@ -5,6 +5,7 @@ import type { Plant } from "../api/types";
 import GardenCanvas from "../components/GardenCanvas";
 import TimerControls from "../components/TimerControls";
 import PlantProgress from "../components/PlantProgress";
+import Shop from "../components/Shop";
 import { useTimer } from "../hooks/useTimer";
 import styles from "./Garden.module.css";
 
@@ -71,6 +72,7 @@ export default function Garden() {
         <span className={styles.logo}>🌱 Sprout</span>
         <div className={styles.nav}>
           <span className={styles.coins}>🪙 {coins}</span>
+          <Shop />
           <span className={styles.userEmail}>{user?.email}</span>
           <button className={styles.signOut} onClick={logout}>
             Sign out
