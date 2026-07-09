@@ -74,7 +74,7 @@ export default function Garden() {
           <span className={styles.coins}>🪙 {coins}</span>
           <Shop coins={coins} />
           <span className={styles.userEmail}>{user?.email}</span>
-          <button className={styles.signOut} onClick={logout}>
+          <button className={`${styles.signOut} btn-ghost`} onClick={logout}>
             Sign out
           </button>
         </div>

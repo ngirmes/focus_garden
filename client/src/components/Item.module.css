@@ -51,23 +51,7 @@
   width: 100%;
   margin-top: 4px;
   padding: 8px;
-  border: none;
   border-radius: 10px;
-  background: var(--accent);
-  color: #fff;
   font-size: 0.85rem;
-  font-weight: 700;
-  font-family: var(--sans);
-  cursor: pointer;
   transition: background 0.15s;
-}
-
-.buyBtn:hover:not(:disabled) {
-  background: var(--accent-hover);
-}
-
-.buyBtn:disabled {
-  background: var(--border);
-  color: var(--text-muted);
-  cursor: not-allowed;
 }

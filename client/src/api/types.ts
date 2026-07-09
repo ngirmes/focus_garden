@@ -27,3 +27,10 @@ export interface SellResult {
   coins: number;
   newPlant: Plant;
 }
+
+export interface ShopItem {
+  id: string;
+  name: string;
+  price: number;
+  image?: string;
+}

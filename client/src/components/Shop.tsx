@@ -1,24 +1,21 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import Item from "./Item";
+import { SHOP_ITEMS } from "../api/shop";
 import styles from "./Shop.module.css";
-
-// Placeholder catalog until seeds have real sprites and a backend shop endpoint.
-const SEEDS = [
-  { id: "basic-seed", name: "Basic Seed", price: 20 },
-  { id: "sunflower-seed", name: "Sunflower Seed", price: 40 },
-  { id: "rare-seed", name: "Rare Seed", price: 100 },
-];
 
 interface ShopProps {
   coins: number;
 }
 
-export default function Shop({ coins }: ShopProps) {
+function Shop({ coins }: ShopProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <button className={styles.trigger} onClick={() => setIsOpen(true)}>
+      <button
+        className={`${styles.trigger} btn-primary`}
+        onClick={() => setIsOpen(true)}
+      >
         🛒 Shop
       </button>
 
@@ -28,7 +25,7 @@ export default function Shop({ coins }: ShopProps) {
             <div className={styles.header}>
               <h2 className={styles.title}>Shop</h2>
               <button
-                className={styles.closeBtn}
+                className={`${styles.closeBtn} btn-ghost`}
                 onClick={() => setIsOpen(false)}
                 aria-label="Close shop"
               >
@@ -37,15 +34,15 @@ export default function Shop({ coins }: ShopProps) {
             </div>
 
             <div className={styles.items}>
-              {SEEDS.map((seed) => (
+              {SHOP_ITEMS.map((item) => (
                 <Item
-                  key={seed.id}
-                  name={seed.name}
-                  price={seed.price}
-                  disabled={coins < seed.price}
+                  key={item.id}
+                  name={item.name}
+                  price={item.price}
+                  disabled={coins < item.price}
                   onPurchase={() => {
                     // TODO: wire to a real purchase endpoint once one exists.
-                    console.log(`Purchase requested: ${seed.name}`);
+                    console.log(`Purchase requested: ${item.name}`);
                   }}
                 />
               ))}
@@ -56,3 +53,5 @@ export default function Shop({ coins }: ShopProps) {
     </>
   );
 }
+
+export default memo(Shop);

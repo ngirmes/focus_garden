@@ -73,3 +73,39 @@ button {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* Shared button primitives, composed alongside a module's own layout classes */
+.btn-primary {
+  font-family: var(--sans);
+  font-weight: 700;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.btn-primary:disabled {
+  background: var(--border);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  font-family: var(--sans);
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.btn-ghost:hover {
+  color: var(--text-strong);
+  background: var(--border);
+}
