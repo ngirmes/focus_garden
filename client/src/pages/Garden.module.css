@@ -52,19 +52,6 @@
 .signOut {
   font-size: 0.8rem;
   font-weight: 600;
-  font-family: var(--sans);
-  color: var(--text-muted);
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 6px;
-  transition: color 0.15s, background 0.15s;
-}
-
-.signOut:hover {
-  color: var(--text-strong);
-  background: var(--border);
 }
 
 .errorBanner {

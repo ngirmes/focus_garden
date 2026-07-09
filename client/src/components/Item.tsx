@@ -27,7 +27,7 @@ export default function Item({ name, price, image, disabled, onPurchase }: ItemP
       <span className={styles.price}>🪙 {price}</span>
 
       <button
-        className={styles.buyBtn}
+        className={`${styles.buyBtn} btn-primary`}
         disabled={disabled}
         onClick={(e) => {
           e.stopPropagation();
