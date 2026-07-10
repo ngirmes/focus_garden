@@ -9,7 +9,7 @@ const CX = W / 2;
 const SOIL_Y = H * 0.68;
 
 interface Props {
-  stage: number;
+  stage: number | null;
 }
 
 function drawPot(g: Graphics) {
@@ -92,24 +92,39 @@ export default function GardenCanvas({ stage }: Props) {
     drawPot(pot);
     app.stage.addChild(pot);
 
-    const plant = new Graphics();
-    drawPlant(plant, stageRef.current);
-    app.stage.addChild(plant);
-    plantRef.current = plant;
+    if (stageRef.current !== null) {
+      const plant = new Graphics();
+      drawPlant(plant, stageRef.current);
+      app.stage.addChild(plant);
+      plantRef.current = plant;
+    }
 
     let t = 0;
     app.ticker.add(() => {
+      const p = plantRef.current;
+      if (!p) return;
       t += 0.02;
-      plant.y = Math.sin(t) * 2;
+      p.y = Math.sin(t) * 2;
     });
   }, []);
 
   useEffect(() => {
     if (!plantRef.current) return;
+    if (stage === null) return;
     drawPlant(plantRef.current, stage);
   }, [stage]);
 
-  usePixiApp(containerRef, onReady, W, H);
+  const appRef = usePixiApp(containerRef, onReady, W, H);
+
+  // Lazily create the plant graphics the moment a seed is planted, since
+  // onReady may have already run while there was no active plant yet.
+  useEffect(() => {
+    if (plantRef.current || stage === null || !appRef.current) return;
+    const plant = new Graphics();
+    drawPlant(plant, stage);
+    appRef.current.stage.addChild(plant);
+    plantRef.current = plant;
+  }, [stage, appRef]);
 
   return <div className={styles.wrapper} ref={containerRef} />;
 }
