@@ -1,0 +1,12 @@
+/* Unlike GardenCanvas, this wrapper fits within whatever box its parent
+   gives it (both dimensions capped) rather than scaling from width alone —
+   max-width/max-height + aspect-ratio together produce "contain" sizing,
+   so it can never grow wider than its column just because it's tall. */
+.wrapper {
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 480 / 300;
+  border-radius: 20px;
+  overflow: hidden;
+  line-height: 0; /* removes inline gap below canvas */
+}

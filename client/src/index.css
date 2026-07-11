@@ -13,7 +13,7 @@
   --error-light:  #fdf2f2;
 
   /* Type */
-  --sans: 'Nunito', system-ui, sans-serif;
+  --sans: 'Geist Pixel', system-ui, sans-serif;
   font-family: var(--sans);
   font-size: 16px;
   line-height: 1.6;
@@ -100,8 +100,8 @@ button {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 6px;
+  padding: 8px 16px;
+  border-radius: 12px;
   transition: color 0.15s, background 0.15s;
 }
 
