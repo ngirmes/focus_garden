@@ -1,3 +1,5 @@
+import { request } from "./client";
+
 export interface SeedEntry {
   id: string;
   name: string;
@@ -5,9 +7,24 @@ export interface SeedEntry {
   image?: string;
 }
 
-// Mock starting inventory for the frontend-only prototype.
-// ids intentionally match SHOP_ITEMS in ./shop.ts so a future purchase-flow
-// wire-up can look up name/image by id consistently.
-export const INITIAL_INVENTORY: SeedEntry[] = [
-  { id: "basic-seed", name: "Basic Seed", quantity: 2 },
-];
+interface UserSeedRow {
+  id: number;
+  name: string;
+  quantity: number;
+}
+
+export async function getSeedInventory(token: string): Promise<SeedEntry[]> {
+  const rows = await request<UserSeedRow[]>("/api/inventory/seeds", token);
+  return rows.map((row) => ({ id: String(row.id), name: row.name, quantity: row.quantity }));
+}
+
+interface PurchaseSeedResult {
+  coins: number;
+  quantity: number;
+}
+
+export function purchaseSeed(token: string, seedTypeId: string): Promise<PurchaseSeedResult> {
+  return request<PurchaseSeedResult>(`/api/shop/seeds/${seedTypeId}/purchase`, token, {
+    method: "POST",
+  });
+}

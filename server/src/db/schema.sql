@@ -42,3 +42,31 @@ CREATE TABLE IF NOT EXISTS user_decorations (
   pos_y              REAL,
   purchased_at       TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+CREATE TABLE IF NOT EXISTS seed_types (
+  id    SERIAL PRIMARY KEY,
+  name  TEXT NOT NULL UNIQUE,
+  price INTEGER NOT NULL
+);
+
+INSERT INTO seed_types (name, price) VALUES
+  ('Basic Seed', 20),
+  ('Sunflower Seed', 40),
+  ('Rare Seed', 100)
+ON CONFLICT (name) DO NOTHING;
+
+CREATE TABLE IF NOT EXISTS user_seeds (
+  id           SERIAL PRIMARY KEY,
+  user_id      INTEGER NOT NULL REFERENCES users(id),
+  seed_type_id INTEGER NOT NULL REFERENCES seed_types(id),
+  quantity     INTEGER NOT NULL DEFAULT 0,
+  UNIQUE (user_id, seed_type_id)
+);
+
+CREATE TABLE IF NOT EXISTS tasks (
+  id         SERIAL PRIMARY KEY,
+  user_id    INTEGER NOT NULL REFERENCES users(id),
+  title      TEXT NOT NULL,
+  completed  BOOLEAN NOT NULL DEFAULT false,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);

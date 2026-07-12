@@ -30,6 +30,11 @@ export function usePixiApp(
       app.canvas.style.display = 'block';
       app.canvas.style.width = '100%';
       app.canvas.style.height = 'auto';
+      // The canvas is often displayed well above its native pixel
+      // resolution (e.g. a 768-wide buffer stretched to fill a much wider
+      // column) -- without this the browser's default smoothing blurs the
+      // pixel art instead of keeping it crisp/blocky.
+      app.canvas.style.imageRendering = 'pixelated';
       container.appendChild(app.canvas);
       appRef.current = app;
       onReady(app);

@@ -1,36 +1,17 @@
 import { useRef, useEffect, useCallback } from "react";
-import { Application, Graphics } from "pixi.js";
+import { Application, Assets, Graphics, Sprite } from "pixi.js";
 import { usePixiApp } from "../hooks/usePixiApp";
+import potUrl from "../assets/pot2.png";
 import styles from "./GardenCanvas.module.css";
 
 const W = 400;
 const H = 300;
 const CX = W / 2;
-const SOIL_Y = H * 0.68;
+const SOIL_Y = H;
+const POT_SCALE = 6; // pot1.png is a 32x32 source sprite; integer-scale it up to stay crisp
 
 interface Props {
   stage: number | null;
-}
-
-function drawPot(g: Graphics) {
-  const rimW = 120;
-  const rimH = 16;
-  const bodyTopW = 100;
-  const bodyBotW = 76;
-  const bodyH = 88;
-
-  g.rect(CX - rimW / 2, SOIL_Y - rimH, rimW, rimH);
-  g.fill(0xd4784d);
-
-  g.moveTo(CX - bodyTopW / 2, SOIL_Y);
-  g.lineTo(CX + bodyTopW / 2, SOIL_Y);
-  g.lineTo(CX + bodyBotW / 2, SOIL_Y + bodyH);
-  g.lineTo(CX - bodyBotW / 2, SOIL_Y + bodyH);
-  g.closePath();
-  g.fill(0xc1673c);
-
-  g.ellipse(CX, SOIL_Y - 2, rimW / 2 - 6, 12);
-  g.fill(0x6b4226);
 }
 
 function drawPlant(g: Graphics, stage: number) {
@@ -87,9 +68,13 @@ export default function GardenCanvas({ stage }: Props) {
     stageRef.current = stage;
   }, [stage]);
 
-  const onReady = useCallback((app: Application) => {
-    const pot = new Graphics();
-    drawPot(pot);
+  const onReady = useCallback(async (app: Application) => {
+    const potTexture = await Assets.load(potUrl);
+    potTexture.source.scaleMode = "nearest";
+    const pot = new Sprite(potTexture);
+    pot.anchor.set(0.5, 1);
+    pot.position.set(CX, SOIL_Y);
+    pot.scale.set(POT_SCALE);
     app.stage.addChild(pot);
 
     if (stageRef.current !== null) {
