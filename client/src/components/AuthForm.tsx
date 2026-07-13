@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./AuthForm.module.css";
 import PasswordCheck from "./PasswordCheck";
+import PasswordField from "./PasswordField";
 
 interface AuthFormProps {
   form: string;
@@ -20,11 +21,20 @@ export default function AuthForm({
 }: AuthFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const isRegister = form === "register";
+
   async function handleSubmit() {
     setError("");
+
+    if (isRegister && password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
     setLoading(true);
     try {
       await onSubmit(email, password);
@@ -63,17 +73,28 @@ export default function AuthForm({
 
         <label className={styles.label}>
           Password
-          <input
-            className={styles.input}
-            type="password"
+          <PasswordField
+            inputClassName={styles.input}
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            autoComplete="current-password"
+            onChange={setPassword}
+            autoComplete={isRegister ? "new-password" : "current-password"}
             minLength={8}
           />
-          {form === "register" && <PasswordCheck password={password} />}
+          {isRegister && <PasswordCheck password={password} />}
         </label>
+
+        {isRegister && (
+          <label className={styles.label}>
+            Retype password
+            <PasswordField
+              inputClassName={styles.input}
+              value={confirmPassword}
+              onChange={setConfirmPassword}
+              autoComplete="new-password"
+              minLength={8}
+            />
+          </label>
+        )}
 
         <button className={styles.submit} type="submit" disabled={loading}>
           {loading ? "Please wait…" : submitLabel}

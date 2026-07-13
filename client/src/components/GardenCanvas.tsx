@@ -8,7 +8,7 @@ const W = 400;
 const H = 300;
 const CX = W / 2;
 const SOIL_Y = H;
-const POT_SCALE = 6; // pot1.png is a 32x32 source sprite; integer-scale it up to stay crisp
+const POT_SCALE = 6; // pot2.png is a 32x32 source sprite; integer-scale it up to stay crisp
 
 interface Props {
   stage: number | null;

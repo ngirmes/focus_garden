@@ -71,7 +71,7 @@ export default function RoomCanvas({ background, decorations, onPlaceDecoration 
     app.stage.addChild(worldContainer);
 
     // Room Background Sprite -- purely visual, never holds interactive
-    // objects. Loaded the same way GardenCanvas loads pot1.png.
+    // objects. Loaded the same way GardenCanvas loads pot2.png.
     const roomTexture = await Assets.load(roomUrl);
     roomTexture.source.scaleMode = "nearest";
     const roomSprite = new Sprite(roomTexture);
