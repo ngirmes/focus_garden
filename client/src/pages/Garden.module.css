@@ -14,43 +14,56 @@
   font-size: 1.1rem;
 }
 
-/* Header */
+/* Header: logo / Shop+Inventory / coins+account are laid out as three grid
+   columns rather than flex space-between, so the middle group sits truly
+   centered on the header regardless of how wide the logo or nav ends up
+   being (space-between would only center it relative to the leftover gap). */
 .header {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  padding: 16px 32px;
+  gap: 24px;
+  padding: 32px 64px;
   background: var(--surface);
   border-bottom: 2px solid var(--border);
   flex-shrink: 0;
 }
 
 .logo {
-  font-size: 1.05rem;
+  justify-self: start;
+  font-size: 2.1rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   color: var(--accent);
 }
 
-.nav {
+.headerCenter {
+  justify-self: center;
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
+.nav {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
 .coins {
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 2rem;
   color: var(--text-strong);
 }
 
 .userEmail {
-  font-size: 0.8rem;
+  font-size: 1.6rem;
   color: var(--text-muted);
 }
 
 .signOut {
-  font-size: 0.8rem;
+  font-size: 1.6rem;
   font-weight: 600;
 }
 
@@ -64,19 +77,34 @@
   margin: 0;
 }
 
-/* Main layout */
+/* Main layout: Shop button, pot+timer column, room column, Inventory
+   button, in a row. The room column's height is set explicitly in JS to
+   match the left column's measured height (see Garden.tsx's
+   ResizeObserver), not via flexbox stretch. Top-align everything so
+   Shop/Inventory sit flush with the top of the columns, right under the
+   header, instead of centering to the middle of the taller columns. */
 .main {
   flex: 1;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
   padding: 32px 20px;
   gap: 24px;
 }
 
-.canvasWrapper {
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
   width: 100%;
   max-width: 420px;
+}
+
+.canvasWrapper {
+  width: 100%;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(60, 80, 50, 0.12);
@@ -85,7 +113,6 @@
 /* Controls panel */
 .panel {
   width: 100%;
-  max-width: 420px;
   background: var(--surface);
   border-radius: 20px;
   padding: 24px;
@@ -133,4 +160,92 @@
 .sellBtn:hover {
   background: #e8b930;
   transform: translateY(-1px);
+}
+
+/* Room */
+.roomColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+  width: 100%;
+  /* Generous enough that it's essentially never the binding constraint --
+     the aspect-ratio + max-height:100% on .roomCanvasWrapper's child (see
+     RoomCanvas.module.css) is what actually sizes the room, from the
+     measured height below. This cap previously matched the room's old
+     480x300 art and was quietly capping a much bigger 768x432 room down
+     to a postage stamp regardless of how much screen was available. */
+  max-width: min(1400px, 92vw);
+  /* set from Garden.tsx via ResizeObserver, matching the left column's real
+     rendered height; falls back to auto until the first measurement lands
+     and is reset to auto entirely below the 900px breakpoint */
+  height: var(--room-height, auto);
+}
+
+.roomHeading {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.roomCanvasWrapper {
+  flex: 1;
+  min-height: 0; /* lets this flex child shrink to fit the column instead of forcing it taller */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(60, 80, 50, 0.12);
+  border-radius: 20px;
+}
+
+.swatchRow {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+@media (max-width: 900px) {
+  .main {
+    flex-direction: column;
+    align-items: center;
+    /* space-evenly is for distributing leftover width across the row on
+       wide screens; once stacked into a column it would instead spread
+       large vertical gaps between items, so drop back to normal flow. */
+    justify-content: flex-start;
+  }
+
+  .roomColumn {
+    max-width: min(600px, 92vw);
+    height: auto;
+  }
+
+  /* Below this width .main is no longer a stretched row, so there's no
+     longer a definite height for RoomCanvas's max-height:100% to resolve
+     against. Fall back to sizing by width instead, same as the pot canvas. */
+  .roomCanvasWrapper {
+    flex: none;
+    width: 100%;
+    aspect-ratio: 768 / 432;
+  }
+}
+
+.swatchBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  padding: 0;
+}
+
+.swatchActive {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-light);
+}
+
+/* Tasks */
+.tasksSection {
+  display: flex;
+  justify-content: center;
+  padding: 0 20px 40px;
 }

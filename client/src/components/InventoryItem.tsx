@@ -5,15 +5,16 @@ interface InventoryItemProps {
   name: string;
   quantity: number;
   image?: string;
+  kind: "seed" | "decoration";
 }
 
-export default function InventoryItem({ id, name, quantity, image }: InventoryItemProps) {
+export default function InventoryItem({ id, name, quantity, image, kind }: InventoryItemProps) {
   return (
     <div
       className={styles.card}
       draggable
       onDragStart={(e) => {
-        e.dataTransfer.setData("text/plain", id);
+        e.dataTransfer.setData("text/plain", JSON.stringify({ kind, id }));
         e.dataTransfer.effectAllowed = "move";
       }}
     >
