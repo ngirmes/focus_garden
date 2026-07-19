@@ -13,13 +13,21 @@ router.get(
     try {
       const userId = req.user!.userId;
 
-      const [plantResult, userResult] = await Promise.all([
+      const [plantResult, coins] = await Promise.all([
         getActivePlant(userId),
         getCoins(userId),
       ]);
 
+      // A validly-signed token can still name a user that no longer exists
+      // (e.g. the account was deleted after the token was issued). Catch
+      // that here rather than letting createPlant's insert fail on the
+      // users foreign key below, which would otherwise surface as an
+      // opaque 500 instead of telling the client to re-authenticate.
+      if (coins === undefined) {
+        return res.status(401).json({ error: "Invalid or expired token" });
+      }
+
       const plant = plantResult ?? (await createPlant(userId));
-      const coins = userResult;
 
       return res.json({ plant, coins });
     } catch (err) {

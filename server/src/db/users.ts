@@ -27,10 +27,10 @@ export async function createUser(
   return result.rows[0];
 }
 
-export async function getCoins(userId: number): Promise<number> {
+export async function getCoins(userId: number): Promise<number | undefined> {
   const result = await query<{ coins: number }>(
     "SELECT coins FROM users WHERE id = $1",
     [userId],
   );
-  return result.rows[0].coins;
+  return result.rows[0]?.coins;
 }

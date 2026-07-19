@@ -57,7 +57,7 @@ export default function Garden() {
     return () => observer.disconnect();
   }, [loading]);
 
-  useEffect(() => {
+  const loadGarden = useCallback(() => {
     if (!token) return;
     Promise.all([getGarden(token), getSeedInventory(token), getTasks(token)])
       .then(([gardenData, seeds, taskList]) => {
@@ -69,6 +69,16 @@ export default function Garden() {
       .catch(() => setError("Failed to load garden"))
       .finally(() => setLoading(false));
   }, [token]);
+
+  useEffect(() => {
+    loadGarden();
+  }, [loadGarden]);
+
+  const handleRetry = () => {
+    setLoading(true);
+    setError("");
+    loadGarden();
+  };
 
   const handleSessionComplete = useCallback(
     async (minutes: number) => {
@@ -207,7 +217,21 @@ export default function Garden() {
   if (loading)
     return <div className={styles.centered}>Loading your garden…</div>;
   if (error && !plant)
-    return <div className={styles.centered}>{error}</div>;
+    return (
+      <div className={styles.centered}>
+        <div className={styles.errorContent}>
+          <p>{error}</p>
+          <div className={styles.errorActions}>
+            <button className={`${styles.retryBtn} btn-primary`} onClick={handleRetry}>
+              Try again
+            </button>
+            <button className="btn-ghost" onClick={logout}>
+              Sign out
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   if (!token) return null; // ProtectedRoute guarantees this in practice; narrows the type below
 
   return (

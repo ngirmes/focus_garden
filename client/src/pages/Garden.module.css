@@ -14,6 +14,25 @@
   font-size: 1.1rem;
 }
 
+.errorContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+}
+
+.errorActions {
+  display: flex;
+  gap: 12px;
+}
+
+.retryBtn {
+  padding: 10px 24px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+}
+
 /* Header: logo / Shop+Inventory / coins+account are laid out as three grid
    columns rather than flex space-between, so the middle group sits truly
    centered on the header regardless of how wide the logo or nav ends up
